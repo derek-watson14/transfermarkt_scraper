@@ -1,3 +1,5 @@
 *-pages/
 csv-data/
 instructions.txt
+temp/
+*.html

@@ -1,6 +1,10 @@
 import scrapy
-from tm_lists import seasons, leagues
+from pathlib import Path
 
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from tm_lists import leagues, seasons
 
 class TransfersSpider(scrapy.Spider):
     name = "transfers"
@@ -18,7 +22,10 @@ class TransfersSpider(scrapy.Spider):
     def parse(self, response):
         season = response.url[-4:]
         league = response.url.split("/")[-3]
-        filename = f'./transfer-pages/transfers-{league}-{season}.html'
-        with open(filename, 'wb') as f:
+        
+        base_path = Path(__file__).parent
+        file_path = (base_path / f"../transfer-pages/transfers-{league}-{season}.html").resolve()
+
+        with open(file_path, 'wb') as f:
             f.write(response.body)
-        self.log(f'Saved file {filename}')
+        self.log(f'Saved file {file_path}')

@@ -19,7 +19,7 @@ def format_percent(pct_str):
 
 
 # Open file to store data
-f = open("../../csv-data/stadium_data1.csv", "w", encoding="utf-8", newline='')
+f = open("../../csv-data/stadium_data.csv", "w", encoding="utf-8", newline='')
 writer = csv.writer(f)
 
 # Write data headers
