@@ -29,6 +29,8 @@ writer.writerow(column_headers)
 # Set directory and loop through all files therein
 directory = "./stadium-pages"
 for filename in os.listdir(directory):
+    # Print which file is being processed to show progress
+    print("Processing:", filename)
 
     # Get some metadata from filename using league code definitions from tm_lists
     filename_data = filename[:-5].split("-")

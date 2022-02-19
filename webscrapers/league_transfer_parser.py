@@ -24,6 +24,8 @@ def euros2int(val):
     
 
 for filename in os.listdir(directory):
+    # Print which file is being processed to show progress
+    print("Processing:", filename)
 
     # Get some metadata from filename using league code definitions from tm_lists
     filename_data = filename[:-5].split("-")
