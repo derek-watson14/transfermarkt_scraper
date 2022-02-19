@@ -58,3 +58,53 @@ def parse_fee(fee_str):
     elif fee_str[-3:] == "Th.":
         fee_str = fee_str.replace("Th.", "")
         return int(fee_str + "000")
+    else:
+        return int(fee_str)
+
+def calc_summary_vals(table, summary, direction, league_country):
+    summary_copy = summary.copy()
+    if direction == "in":
+        player_direction = "signings"
+        money_direction = "expenditure"
+    elif direction == "out":
+        player_direction = "departures"
+        money_direction = "income"
+
+    domestic = None
+    cells = table.find_all("td")
+    for index, cell in enumerate(cells):
+        if index % 9 == 7:
+            flag = cell.find("img")
+            if flag:
+                in_from = cell.find("img").get("alt")
+                if in_from == league_country:
+                    summary_copy["domestic_" + player_direction] += 1
+                    domestic = True
+                else:
+                    summary_copy["international_" + player_direction] += 1
+                    domestic = False
+            else:
+                summary_copy["other_" + player_direction] += 1
+            summary_copy["total_" + player_direction] += 1
+
+        
+        if index % 9 == 8:
+            fee_str = cell.text
+
+            if fee_str:
+                if fee_str == "?":
+                    summary_copy["complete_data"] = False 
+                
+                if fee_str[0] == "€":
+                    fee = parse_fee(fee_str)
+                    if domestic:
+                        summary_copy["domestic_" + money_direction] += fee
+                    else:
+                        summary_copy["international_" + money_direction] += fee
+                    summary_copy["total_" + money_direction] += fee
+                    domestic = None
+            else:
+                summary_copy["complete_data"] = False
+
+    
+    return summary_copy

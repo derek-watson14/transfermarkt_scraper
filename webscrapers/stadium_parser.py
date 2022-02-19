@@ -1,7 +1,7 @@
 import os
 import csv
 from bs4 import BeautifulSoup
-from tm_lists import league_code_defs
+from helpers import league_code_defs
 
 # Functions to format data to desired format
 def format_num(num):
@@ -32,7 +32,7 @@ for filename in os.listdir(directory):
     # Print which file is being processed to show progress
     print("Processing:", filename)
 
-    # Get some metadata from filename using league code definitions from tm_lists
+    # Get some metadata from filename using league code definitions from helpers
     filename_data = filename[:-5].split("-")
     year = filename_data[2]
     league_code = filename_data[1]

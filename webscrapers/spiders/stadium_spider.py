@@ -4,7 +4,7 @@ from pathlib import Path
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from tm_lists import leagues, seasons
+from helpers import leagues, seasons
 
 class StadiumsSpider(scrapy.Spider):
     name = "stadiums"
