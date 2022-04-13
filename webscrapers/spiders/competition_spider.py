@@ -6,15 +6,14 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from helpers import land_ids, land_id_defs, competition_defs
 
-class StadiumsSpider(scrapy.Spider):
+class CompetitionsSpider(scrapy.Spider):
     name = "competitions"
 
     def start_requests(self):
-        competitions = ["CL", "EL"]
         urls = []
         for comp in competitions:
             for land_id in land_ids:
-                url = f"https://www.transfermarkt.us/home/abschneiden/pokalwettbewerb/{comp}/plus/0?land_id={land_id}"
+                url = f"https://www.transfermarkt.com/home/abschneiden/pokalwettbewerb/{comp}/plus/0?land_id={land_id}"
                 urls.append(url) 
                 
     
