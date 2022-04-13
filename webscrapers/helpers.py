@@ -12,6 +12,26 @@ league_code_defs = {
     "NL1": {"league": "Eredivisie", "country": "Netherlands"},
 }
 
+land_ids = ["75", "40", "189", "136", "122", "157", "50"]
+
+land_id_defs = {
+    "75": league_code_defs["IT1"],
+    "40": league_code_defs["L1"],
+    "189": league_code_defs["GB1"],
+    "136": league_code_defs["PO1"],
+    "122": league_code_defs["NL1"],
+    "157": league_code_defs["ES1"],
+    "50": league_code_defs["FR1"],
+}
+
+competition_defs = {
+    "CL": "Champions League",
+    "EL": "Europa League",
+}
+
+
+
+
 def parse_filename(filename):
     filename_data = filename[:-5].split("-")
     year = filename_data[2]

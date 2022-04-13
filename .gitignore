@@ -3,3 +3,4 @@ csv-data/
 instructions.txt
 temp/
 *.html
+__pycache__/
