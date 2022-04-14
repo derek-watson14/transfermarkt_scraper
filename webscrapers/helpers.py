@@ -24,7 +24,7 @@ land_id_defs = {
     "50": league_code_defs["FR1"],
 }
 
-competition_defs = {
+comp_code_defs = {
     "CL": "Champions League",
     "EL": "Europa League",
 }
