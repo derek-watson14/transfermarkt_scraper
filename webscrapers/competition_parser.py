@@ -8,7 +8,22 @@ f = open("../../csv-data/int_competition_data.csv", "w", encoding="utf-8", newli
 writer = csv.writer(f)
 
 # Write data headers
-column_headers = ["Country", "League", "Year", "Competition", "Round of 16", "Quarter Finals", "Semi Finals", "Finals", "Win", "Points"]
+column_headers = [
+    "Country", 
+    "League", 
+    "Year", 
+    "Champions League Round of 16", # CL = [3:8]
+    "Champions League Quarter Finals", 
+    "Champions League Semi Finals", 
+    "Champions League Finals", 
+    "Champions League Win", 
+    "Europa League Round of 16", # EL = [8:13]
+    "Europa League Quarter Finals", 
+    "Europa League Semi Finals", 
+    "Europa League Finals", 
+    "Europa League Win", 
+    "Points"
+]
 writer.writerow(column_headers)
 
 # Set directory and loop through all files therein
@@ -22,6 +37,7 @@ def calc_points(comp_code, ro16, qf, sf, f, v):
         points = ro16*12 + qf*18 + sf*28 + f*46 + v*86
     return points
 
+items = {}
 
 for filename in os.listdir(directory):
     # Print which file is being processed to show progress
@@ -34,7 +50,6 @@ for filename in os.listdir(directory):
 
     country = land_id_defs[land_id]["country"]
     league = land_id_defs[land_id]["league"]
-    competition = comp_code_defs[comp_code]
 
 
     # Create path for file and if file exists, open to read
@@ -57,19 +72,36 @@ for filename in os.listdir(directory):
                 # Assign column data to variables
                 year = columns[0].getText()
 
-                # TODO: Write this more concisely
+                item_name = f"{country}{year[:2]}"
+                if item_name not in items:
+                    items[item_name] = [None] * 14
+                    items[item_name][0] = country
+                    items[item_name][1] = league
+                    items[item_name][2] = f"20{year[:2]}"
+                    items[item_name][13] = 0
+    
                 if comp_code == "CL":
-                    results = [len(col("a")) for col in columns[3:8]]
+                    ro16, qf, sf, f, w = [len(col("a")) for col in columns[3:8]]
+                    points = calc_points(comp_code, ro16, qf, sf, f, w)
+                    items[item_name][3] = ro16
+                    items[item_name][4] = qf
+                    items[item_name][5] = sf
+                    items[item_name][6] = f
+                    items[item_name][7] = w
+                    items[item_name][13] += points
                 elif comp_code == "EL":
-                    results = [len(col("a")) for col in columns[4:9]]
-
-                ro16, qf, sf, f, v = results
-
-                points = calc_points(comp_code, ro16, qf, sf, f, v)
+                    ro16, qf, sf, f, w = [len(col("a")) for col in columns[4:9]]
+                    points = calc_points(comp_code, ro16, qf, sf, f, w)
+                    items[item_name][8] = ro16
+                    items[item_name][9] = qf
+                    items[item_name][10] = sf
+                    items[item_name][11] = f
+                    items[item_name][12] = w
+                    items[item_name][13] += points
 
                 # Print row data
-                print(country, league, year, competition, ro16, qf, sf, f, v, points)
+                print(items[item_name])
 
-                # Create row list and write to csv
-                row = [country, league, year, competition, ro16, qf, sf, f, v, points]
-                writer.writerow(row)
+# Iterate throgh dict and write each item to CSV
+for item in items.values():
+    writer.writerow(item)
