@@ -4,7 +4,7 @@ from pathlib import Path
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from helpers import land_ids, land_id_defs, competition_defs
+from helpers import land_ids, land_id_defs, comp_code_defs
 
 class CompetitionsSpider(scrapy.Spider):
     name = "competitions"
