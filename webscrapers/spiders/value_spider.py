@@ -13,7 +13,7 @@ class ValuesSpider(scrapy.Spider):
         urls = []
         for league in leagues:
             for season in seasons:
-                url = f"https://www.transfermarkt.us/premier-league/startseite/wettbewerb/{league}/plus/?saison_id={season}"
+                url = f"https://www.transfermarkt.com/premier-league/startseite/wettbewerb/{league}/plus/?saison_id={season}"
                 urls.append(url) 
                 
     
