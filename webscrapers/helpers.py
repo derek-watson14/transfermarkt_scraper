@@ -78,6 +78,10 @@ def parse_fee(fee_str):
     elif fee_str[-3:] == "Th.":
         fee_str = fee_str.replace("Th.", "")
         return int(fee_str + "000")
+    elif fee_str[-2:] == "bn":
+        fee_str = fee_str.replace("bn", "")
+        nums = fee_str.split(".")
+        return int(nums[0] + nums[1] + "0000000")
     else:
         return int(fee_str)
 
